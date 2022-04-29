@@ -28,7 +28,7 @@ namespace TopsyTurvyCakes
             }
 
             app.UseRouting();
-
+            app.UseStaticFiles();   // which this the project will look in the wwwroot folder for static files and return them if the filname matches the request
             app.UseMvcWithDefaultRoute();
         }
     }
