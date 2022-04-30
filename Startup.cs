@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TopsyTurvyCakes.Models;
 
 namespace TopsyTurvyCakes
 {
@@ -17,6 +18,8 @@ namespace TopsyTurvyCakes
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(options => options.EnableEndpointRouting = false); // disable endpoint-routing needed to be added
+            services.AddScoped<IRecipesService, RecipesService>();  // provide an instance of the recipe service class anytime an instance of the IRecipesService is requested
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
