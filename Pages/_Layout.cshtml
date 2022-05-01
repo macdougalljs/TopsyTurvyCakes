@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <title>Topsy Turvy Cake Design</title>
@@ -25,7 +24,7 @@
                         @if(!User.Identity.IsAuthenticated) {
                             <a href="/Account/Login">Login</a>
                         } else {
-                            <form method="post">
+                            <form method="post" asp-page="/Account/Login" asp-page-handler="Logout">
                                 <div class="input-group">
                                     <span>@User.Identity.Name</span>
                                     <button type="submit" class="btn btn-link">Logout</button>
@@ -37,10 +36,10 @@
             </nav>
         </div>
         <div class="row">
-            @if(IsSectionDefined("Title")) {
-            @RenderSection("Title", required: false);
-            }
-            else{
+            @if (IsSectionDefined("Title"))
+            {
+                @RenderSection("Title", required: false)
+            } else {
                 <h2 class="title">@ViewData["Title"]</h2>
             }
         </div>
@@ -48,10 +47,7 @@
 
     <div class="container">
 
-        <div class="row recipes">
-        @RenderBody()
-
-        </div>
+       @RenderBody()
             
     </div>
 
