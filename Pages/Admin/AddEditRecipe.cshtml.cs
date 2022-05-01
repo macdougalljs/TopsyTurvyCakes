@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
@@ -8,6 +9,12 @@ namespace TopsyTurvyCakes.Pages.Admin
     public class AddEditRecipeModel : PageModel
     {
         private readonly IRecipesService recipesService;
+
+        [BindProperty]
+        public IFormFile Image
+        {
+            get; set;
+        }
 
         [FromRoute]
         public long? Id
@@ -35,6 +42,7 @@ namespace TopsyTurvyCakes.Pages.Admin
         }
 
 
+
         public async Task OnGetAsync()  // one of the most powerful features // the ability to execute different code based on the http verb the request was made with
         {
             // load the data for the initial recipe
@@ -44,11 +52,34 @@ namespace TopsyTurvyCakes.Pages.Admin
 
         public async Task<IActionResult> OnPostAsync()
         {
-            Recipe.Id = Id.GetValueOrDefault();
-            await recipesService.SaveAsync(Recipe);
+            var recipe = await recipesService.FindAsync(Id.GetValueOrDefault()) ?? new Recipe();
+
+            // to control what gets updated and when, each field in the database will need to be updated individually
+
+            recipe.Name = Recipe.Name;
+            recipe.Description = Recipe.Description;
+            recipe.Ingredients = Recipe.Ingredients;
+            recipe.Directions = Recipe.Directions;
+
+            // image data
+
+            if (Image != null)
+            {
+                // first copy to a temporary stream, and then read the images data from that stream
+                using (var stream = new System.IO.MemoryStream())
+                {
+                    await Image.CopyToAsync(stream);
+                    recipe.Image = stream.ToArray();
+                    recipe.ImageContentType = Image.ContentType;
+                }
+            }
+
+
+
+            await recipesService.SaveAsync(recipe);
             return RedirectToPage("/Recipe", new
             {
-                id = Recipe.Id
+                id = recipe.Id
             });
             // check out razor pages documentation to see all the various actionResult types and usage
         }
@@ -58,5 +89,7 @@ namespace TopsyTurvyCakes.Pages.Admin
             await recipesService.DeleteAsync(Id.Value);
             return RedirectToPage("/Index");
         }
+
+     
     }
 }
