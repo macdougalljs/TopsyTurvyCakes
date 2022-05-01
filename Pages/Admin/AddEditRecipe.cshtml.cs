@@ -34,12 +34,12 @@ namespace TopsyTurvyCakes.Pages.Admin
             this.recipesService = recipesService;
         }
 
+
         public async Task OnGetAsync()  // one of the most powerful features // the ability to execute different code based on the http verb the request was made with
         {
             // load the data for the initial recipe
 
             Recipe = await recipesService.FindAsync(Id.GetValueOrDefault()) ?? new Recipe(); // if it's not found, create a new recipe instead
-
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -51,7 +51,12 @@ namespace TopsyTurvyCakes.Pages.Admin
                 id = Recipe.Id
             });
             // check out razor pages documentation to see all the various actionResult types and usage
+        }
 
+        public async Task<IActionResult> OnPostDelete(Recipe recipe)
+        {
+            await recipesService.DeleteAsync(Id.Value);
+            return RedirectToPage("/Index");
         }
     }
 }
