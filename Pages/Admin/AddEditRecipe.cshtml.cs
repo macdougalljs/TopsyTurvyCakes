@@ -23,6 +23,7 @@ namespace TopsyTurvyCakes.Pages.Admin
             }
         }
 
+        [BindProperty]  // Access data posted in request - model binding - will iterate over each properties of the object and attempt to match the name of each property with the name of a value in the request - so they MUST match!
         public Recipe Recipe
         {
             get; set;
@@ -32,7 +33,6 @@ namespace TopsyTurvyCakes.Pages.Admin
         {
             this.recipesService = recipesService;
         }
-
 
         public async Task OnGetAsync()  // one of the most powerful features // the ability to execute different code based on the http verb the request was made with
         {
@@ -44,9 +44,11 @@ namespace TopsyTurvyCakes.Pages.Admin
 
         public async Task<IActionResult> OnPostAsync()
         {
+            Recipe.Id = Id.GetValueOrDefault();
+            await recipesService.SaveAsync(Recipe);
             return RedirectToPage("/Recipe", new
             {
-                id = Id
+                id = Recipe.Id
             });
             // check out razor pages documentation to see all the various actionResult types and usage
 
