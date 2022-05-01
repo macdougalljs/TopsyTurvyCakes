@@ -52,6 +52,11 @@ namespace TopsyTurvyCakes.Pages.Admin
 
         public async Task<IActionResult> OnPostAsync()
         {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
             var recipe = await recipesService.FindAsync(Id.GetValueOrDefault()) ?? new Recipe();
 
             // to control what gets updated and when, each field in the database will need to be updated individually

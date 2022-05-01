@@ -6,29 +6,62 @@ namespace TopsyTurvyCakes.Models
 {
     public class Recipe
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Directions { get; set; }
-        public string Ingredients { get; set; }
+        public long Id
+        {
+            get; set;
+        }
+
+        [Required]
+        [StringLength(100, MinimumLength = 5, ErrorMessage = "Name needs to be between 5-100 characters")]      
+        public string Name
+        {
+            get; set;
+        }
+        [Required]
+        public string Description
+        {
+            get; set;
+        }
+        [Required]
+        public string Directions
+        {
+            get; set;
+        }
+        [Required]
+        public string Ingredients
+        {
+            get; set;
+        }
 
         public IEnumerable<string> DirectionsList
         {
-            get { return (Directions ?? string.Empty).Split(NewLine); }
+            get
+            {
+                return (Directions ?? string.Empty).Split(NewLine);
+            }
         }
 
         public IEnumerable<string> IngredientsList
         {
-            get { return (Ingredients ?? string.Empty).Split(NewLine); }
+            get
+            {
+                return (Ingredients ?? string.Empty).Split(NewLine);
+            }
         }
 
         #region Image
 
-        public byte[] Image { get; set; }
+        public byte[] Image
+        {
+            get; set;
+        }
 
-        public string ImageContentType { get; set; }
+        public string ImageContentType
+        {
+            get; set;
+        }
 
-        public string GetInlineImageSrc ()
+        public string GetInlineImageSrc()
         {
             if (Image == null || ImageContentType == null)
                 return null;
