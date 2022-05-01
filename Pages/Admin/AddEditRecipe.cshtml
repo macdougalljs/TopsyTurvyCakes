@@ -35,12 +35,14 @@
         </div>
     </div>
 
+    <label asp-for="Image" class="col-md-2 control-label"></label>
+    <input type="file" asp-for="Image">  <!-- needed to be wired to property, not method -->
+
     <div class="form=group">
         <div class="col-md-offset-2 col-md-10">
-            <label asp-for="Image" class="col-md-2 control-label"></label>
-             <input type="file" asp-page-handler="Image" >  <!-- needed to be wired to property, not method -->
+
             <button type="submit" class="btn btn btn-primary">Save</button>
-           
+
             @if (!Model.IsNewReceipe)
             {
                 <button type="submit" asp-page-handler="Delete" class="btn btn btn-danger">Delete</button>

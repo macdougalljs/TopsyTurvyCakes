@@ -74,8 +74,6 @@ namespace TopsyTurvyCakes.Pages.Admin
                 }
             }
 
-
-
             await recipesService.SaveAsync(recipe);
             return RedirectToPage("/Recipe", new
             {
