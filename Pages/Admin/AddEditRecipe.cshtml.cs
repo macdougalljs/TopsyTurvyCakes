@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -6,6 +7,7 @@ using TopsyTurvyCakes.Models;
 
 namespace TopsyTurvyCakes.Pages.Admin
 {
+ [Authorize]  // this is the first approach for authorization
     public class AddEditRecipeModel : PageModel
     {
         private readonly IRecipesService recipesService;
